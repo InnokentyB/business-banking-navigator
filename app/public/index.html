@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Business Banking Navigator</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="masthead">
+    <div class="brand"><span class="mark">B</span><div><strong>Business Banking Navigator</strong><small>One company profile. Clearer banking routes.</small></div></div>
+    <span class="demo-tag">SYNTHETIC COMPANY · NO BANK SUBMISSION</span>
+  </header>
+  <main class="shell">
+    <section class="intro">
+      <div><h1>Find banking options. Know your next step.</h1><p>Describe your banking needs, compare published conditions and open questions, then prepare documents for your chosen route.</p></div>
+      <div class="intro-action"><label>Route data<select id="dataMode"><option value="fixture">Fictional example</option><option value="research">Research sources</option></select></label><details id="sessionControls" class="session-controls"><summary>Session controls</summary><button id="resume" class="secondary">Reload saved session</button><button id="reload" class="secondary">Start new session</button><button id="deleteSession" class="secondary">Delete this demo session</button></details><small>Research sources require human review before they inform a package.</small></div>
+    </section>
+    <div id="notice" role="status" aria-live="polite" aria-atomic="true" hidden></div>
+    <section class="step"><span>01</span><div><h2>Find banking options for your business</h2><p>Set your needs. Published conditions and unknowns stay separate from document readiness.</p></div></section>
+    <section id="needsForm" class="panel">
+      <p class="subtle">Try this with a fictional company. Choose what you need; you can refine requirements below.</p>
+      <div class="profile-grid needs-grid">
+        <label>Legal form<select id="needLegalForm"><option value="">Not specified</option><option value="Lda">Lda</option><option value="SA">SA · needs separate confirmation</option><option value="ENI">ENI · needs separate confirmation</option></select></label>
+      </div>
+      <fieldset id="quickGoals"><legend>What would you like your bank to do?</legend></fieldset>
+      <details id="needsDetails" class="disclosure"><summary>Refine requirements, currencies and payment volume</summary>
+      <div class="profile-grid needs-grid">
+        <label>Currencies used<input id="needCurrencies" placeholder="EUR, USD · leave empty if unknown"></label>
+        <label>Monthly payment count<input id="needPayments" type="number" min="0" max="1000000" step="1" placeholder="Unknown"></label>
+      </div>
+      <label class="sepa-input">Monthly SEPA transfers + direct debits<input id="needSepaPayments" type="number" min="0" max="1000000" step="1" placeholder="Unknown"><small>Outgoing SEPA transfers and direct debits only. Leave unknown for a base-fee subtotal.</small></label>
+      <fieldset id="needsPriorities"><legend>Which needs are essential?</legend></fieldset>
+      <p class="subtle">Selected goals are preferences. Mark a must-have here to exclude confirmed incompatible routes. Currency support remains partial. Published tariff estimates cover only the listed charges.</p>
+      </details>
+      <div class="review-actions"><button id="saveNeeds" class="secondary">Save banking needs</button><button id="assessNeeds" class="primary">Find banking options</button></div>
+    </section>
+    <div id="selectionResults" aria-live="polite"></div>
+    <details id="companyDetails" class="disclosure workspace-disclosure"><summary>Company context and available documents</summary>
+    <section class="step"><span>01</span><div><h2>Company profile</h2><p>All names and documents in this workspace are fictional.</p></div></section>
+    <section class="panel profile-grid">
+      <label>Legal name<input id="legalName" autocomplete="organization"></label>
+      <label>Country<input id="country"></label>
+      <label>Registration number<input id="registrationNumber"></label>
+      <label>Business activity<input id="businessActivity"></label>
+      <label>Business address<input id="businessAddress"></label>
+      <label>Representative<input id="representative"></label>
+      <label>Owners<input id="owners"></label>
+      <div class="full"><h3>Available evidence</h3><div id="evidenceList" class="chips"></div><div class="add-evidence"><select id="newEvidenceType" aria-label="Evidence type"><option value="ownership_chart">Ownership chart</option><option value="address">Proof of business address</option><option value="registry_extract">Registry extract</option><option value="articles">Articles of association</option><option value="activity_description">Business activity description</option><option value="identity">Representative identity</option><option value="crc_access_code">CRC access code</option><option value="rcbe_access_code">RCBE access code</option><option value="online_identity_access">Online identity access</option><option value="commercial_registration">Commercial registration</option><option value="representative_id">Representative ID</option><option value="ownership_declaration">Ownership declaration</option><option value="corporate_id_card">Corporate ID card</option><option value="representative_tax_id">Representative tax ID</option><option value="representative_address">Representative address</option><option value="representative_income">Representative income or profession</option><option value="corporate_nipc_document">Corporate nipc document</option><option value="rcbe_certificate">Rcbe certificate</option><option value="management_declaration">Management declaration</option><option value="shareholder_declaration">Shareholder declaration</option><option value="corporate_ownership_document">Corporate ownership document</option><option value="residence_permit">Residence permit</option><option value="pep_declaration">Pep declaration</option><option value="representative_authority">Representative authority</option><option value="certified_translation">Certified translation</option><option value="participant_details">Participant details</option><option value="participant_register">Participant register</option><option value="power_of_attorney">Power of attorney</option><option value="route_scope_review">Route scope review</option></select><input id="newEvidence" placeholder="Document name (synthetic)" aria-label="Synthetic document name"><button id="addEvidence" class="secondary">Add evidence</button></div><p class="subtle">Adding a document type does not establish which conditional rules apply. Unknown conditions stay open for review.</p></div>
+    </section>
+    </details>
+    <details id="preparation" class="disclosure workspace-disclosure"><summary>Prepare a chosen bank · documents and opening conditions</summary>
+    <section class="step"><span>03</span><div><h2>Compare banking routes</h2><p>Sources have dates and review status. Check the specific bank channel before applying.</p></div></section>
+    <div class="selection-summary" id="selectionSummary" aria-live="polite"></div><p class="subtle comparison-hint">On a small screen, scroll the comparison sideways to see route limits.</p><div id="comparison" class="comparison" role="region" aria-label="Selected banking routes comparison" tabindex="0"></div>
+    <div id="routes" class="route-grid" aria-label="Banking routes"></div>
+    <section class="panel source-review"><div class="route-head"><div><h3>Review route sources</h3><p>Search results are candidates. Compare the source text, then decide which requirement each source supports.</p></div><span id="sourceMode" class="badge uncertain">No refresh yet</span></div><div class="source-controls"><select id="sourceRoute" aria-label="Route for source search"></select><button id="refreshSources" class="secondary">Refresh this route</button><button id="reloadSources" class="secondary">Reload saved review</button></div><div id="liveSources"></div><div id="candidateReview" hidden><h3 id="candidateTitle">Candidate review</h3><div class="review-columns"><div><h4>Current route sources</h4><div id="currentSourceSummary"></div></div><div><h4>New candidate</h4><div id="candidateSourceSummary"></div></div></div><h4>Review requirements</h4><p>Change the supporting source on lines confirmed by this candidate. Leave other requirements linked to their existing source.</p><div id="requirementRows"></div><button id="addRequirement" class="secondary" type="button">Add requirement</button><details class="advanced-review"><summary>Advanced requirement fields</summary><p>Optional JSON for conditions and other fields. Edits to the rows above will be combined with these fields.</p><label for="reviewRequirements">Reviewed requirements JSON</label><textarea id="reviewRequirements" rows="8" spellcheck="false"></textarea></details><p id="reviewHint"></p><div class="review-actions"><button id="rejectSource" class="secondary">Reject candidate</button><button id="approveSource" class="primary">Approve reviewed source</button></div></div></section>
+    <div class="action-bar"><div><strong>Prepare route packages</strong><p>The analysis uses the current profile, evidence and route requirements.</p></div><button id="analyze" class="primary">Analyze selected routes</button></div>
+    <section class="step"><span>04</span><div><h2>Review packages</h2><p>Ready, missing and uncertain items remain visible with their supporting source.</p></div></section>
+    <div id="packages" class="route-grid" aria-label="Prepared route packages"><div class="panel empty">Run the analysis to prepare route-specific checklists.</div></div>
+    <details id="followDetails" class="disclosure workspace-disclosure"><summary>Follow up on a request from the bank</summary>
+    <section class="step"><span>05</span><div><h2>Bank follow-up</h2><p>Record an external request, add evidence, then review a proposed response.</p></div></section>
+    <section class="panel follow-grid">
+      <label>Route<select id="followRoute"></select></label>
+      <label class="full">Request from the bank<textarea id="followText" rows="3" placeholder="Paste a request received outside this application"></textarea></label>
+      <div class="full manual-classification"><label class="checkline"><input id="manualReview" type="checkbox">I reviewed this request and identified the required evidence</label><div id="manualFields" hidden><div id="manualItems"></div><button id="addManualItem" class="secondary" type="button">Add another item</button><p class="subtle">Your classification applies only to this specific request. It does not become a general bank rule.</p></div></div>
+      <button id="followUp" class="secondary">Prepare response draft</button>
+      <div id="followResult" class="full" hidden><div class="follow-result"><label>Review and edit the response<textarea id="responseDraft" rows="3"></textarea></label><p>No reply has been sent to the bank.</p></div></div>
+    </section>
+    </details>
+    <section class="panel export-panel"><div><h2>Review and export</h2><p>Download a draft checklist with open items, or approve a fully ready package. Neither action submits anything to a bank.</p></div><div><select id="exportRoute" aria-label="Route to export"></select><button id="draftExport" class="secondary" disabled>Download draft</button><button id="printExport" class="secondary" disabled>Print / save PDF</button><button id="approve" class="primary" disabled>Approve &amp; export</button></div></section>
+    </details>
+  </main>
+  <footer>Decision support only · Banks make their own onboarding decisions · Synthetic information</footer>
+  <script src="/app.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+services:
+  navigator:
+    build: ..
+    ports:
+      - "127.0.0.1:3000:3000"
+    env_file:
+      - ../.env
+    environment:
+      PORT: 3000
+      DATA_FILE: /data/demo-state.json
+    volumes:
+      - demo-state:/data
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+volumes:
+  demo-state:

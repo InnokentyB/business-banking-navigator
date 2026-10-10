@@ -1,0 +1,29 @@
+{
+  "name": "business-banking-navigator",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "start": "node app/server.mjs",
+    "smoke:live": "node --env-file=.env scripts/live-smoke.mjs --require-live",
+    "test:browser": "node tests/browser-e2e.mjs",
+    "eval": "node scripts/evaluate.mjs",
+    "eval:live": "node --env-file=.env scripts/evaluate.mjs --live",
+    "preflight": "node --env-file=.env scripts/config-preflight.mjs",
+    "start:local": "node --env-file=.env app/server.mjs",
+    "test:browser:live": "node --env-file=.env tests/live-browser-e2e.mjs --live",
+    "test:browser:comparison": "node tests/route-comparison-e2e.mjs",
+    "test:browser:selection": "node tests/selection-e2e.mjs",
+    "test:browser:guided": "node tests/guided-ux-e2e.mjs",
+    "test:browser:tariffs": "node tests/tariff-e2e.mjs",
+    "test:browser:decision": "node tests/decision-e2e.mjs",
+    "test:browser:european": "node tests/european-e2e.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "playwright": "1.62.1"
+  }
+}

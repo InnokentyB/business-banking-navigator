@@ -1,0 +1,3 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {liveEvaluationPassed} from '../evaluation/gate.mjs';
+const report={datasetSize:26,live:{attempted:26,schemaValid:25,inputRejected:1,finalMatched:25,falseReady:0,finalFalseReady:0,failures:[]}};
+test('live gate requires complete expected outcomes, not just zero false-ready',()=>{assert.equal(liveEvaluationPassed(report),true);for(const patch of [{finalMatched:24},{attempted:25},{schemaValid:24},{falseReady:1},{failures:[{id:'failed'}]}])assert.equal(liveEvaluationPassed({...report,live:{...report.live,...patch}}),false);});

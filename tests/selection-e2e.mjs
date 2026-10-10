@@ -1,0 +1,33 @@
+import assert from 'node:assert/strict';
+import {chromium} from 'playwright';
+import {createAppServer} from '../app/server.mjs';
+import {mkdir} from 'node:fs/promises';
+const server=createAppServer({env:{DATA_FILE:''}});await new Promise(r=>server.listen(0,'127.0.0.1',r));
+const browser=await chromium.launch({headless:true});
+try {
+ const page=await browser.newPage({viewport:{width:1280,height:900}});page.setDefaultTimeout(5000);
+ const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.goto(`http://127.0.0.1:${server.address().port}`);await page.getByText('Fictional example loaded.').waitFor();
+ await page.locator('#dataMode').selectOption('research');await page.getByText('Research session started.').waitFor();
+ await page.locator('#needsForm').waitFor();await page.locator('#needsDetails').evaluate(el=>el.open=true);
+ await page.locator('#needLegalForm').selectOption('Lda');await page.locator('#needCurrencies').fill('EUR, USD');await page.locator('#needPayments').fill('0');
+ await page.locator('#priority-online').selectOption('mandatory');
+ await page.locator('#assessNeeds').click();await page.getByText('Banking options assessed.').waitFor();
+ assert.match(await page.locator('#selectionResults').innerText(),/Need confirmation/);
+ await page.locator('#selectionResults > section > details > summary').click();
+ assert.match(await page.locator('#selectionResults').innerText(),/Santander/);
+ assert.match(await page.locator('#selectionResults').innerText(),/Qonto/);
+ assert.match(await page.locator('#selectionResults').innerText(),/not a cost comparison/i);
+ await page.locator('.choose-option[data-route="qonto-pt-lda-online"]').click();await page.getByText('Option chosen.').waitFor();
+ assert.equal(await page.locator('.choose-route[data-route="qonto-pt-lda-online"]').isChecked(),true);
+ await page.reload();await page.getByText('Demo session restored.',{exact:false}).waitFor();await page.locator('#needsDetails').evaluate(el=>el.open=true);
+ assert.equal(await page.locator('#needPayments').inputValue(),'0');assert.equal(await page.locator('#needCurrencies').inputValue(),'EUR, USD');
+ assert.match(await page.locator('#selectionResults').innerText(),/Chosen: Qonto/);
+ await page.locator('#priority-branch').selectOption('mandatory');assert.match(await page.locator('#selectionResults').innerText(),/Needs changed/);
+ await page.locator('#saveNeeds').click();await page.getByText('Banking needs saved.').waitFor();
+ await page.reload();await page.getByText('Demo session restored.',{exact:false}).waitFor();await page.locator('#needsDetails').evaluate(el=>el.open=true);assert.equal(await page.locator('#priority-branch').inputValue(),'mandatory');
+ await page.locator('#assessNeeds').click();await page.getByText('Banking options assessed.').waitFor();
+ await mkdir('artifacts',{recursive:true});await page.screenshot({path:'artifacts/selection-desktop.png',fullPage:true});
+ await page.setViewportSize({width:390,height:844});assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);await page.screenshot({path:'artifacts/selection-mobile.png',fullPage:true});
+ assert.deepEqual(errors,[]);console.log('Selection E2E passed: needs, unknowns, chosen handoff, persistence, dirty state and mobile.');
+} finally {await browser.close();await new Promise(r=>server.close(r));}

@@ -1,0 +1,10 @@
+.env
+.codex/
+node_modules/
+coverage/
+*.log
+*.zip
+.env.*
+!.env.example
+data/
+artifacts/

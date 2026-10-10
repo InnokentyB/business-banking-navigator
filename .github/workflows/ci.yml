@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Unit and API tests
+        run: npm test
+      - name: Offline product evaluation
+        run: npm run eval
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Browser scenario
+        run: |
+          npm run test:browser
+          npm run test:browser:comparison
+          npm run test:browser:selection
+          npm run test:browser:guided
+          npm run test:browser:tariffs
+          npm run test:browser:decision
+          npm run test:browser:european

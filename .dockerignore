@@ -1,0 +1,13 @@
+.git
+.env
+.env.*
+!.env.example
+node_modules
+coverage
+*.log
+*.zip
+data
+tests
+product
+devpost
+scripts

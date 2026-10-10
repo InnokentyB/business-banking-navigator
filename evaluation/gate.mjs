@@ -1,0 +1,1 @@
+export function liveEvaluationPassed(report){const r=report.live;return !r.skipped && r.attempted===report.datasetSize && r.schemaValid+r.inputRejected===report.datasetSize && r.finalMatched+r.inputRejected===report.datasetSize && r.falseReady===0 && r.finalFalseReady===0 && r.failures.length===0;}
